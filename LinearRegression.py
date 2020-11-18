@@ -4,7 +4,7 @@ import numpy as np
 if __name__ == '__main__':
     x = []
     y = []
-    with open('LinearRegressionDataset.csv', 'r') as file:
+    with open('datasets/LinearRegressionDataset.csv', 'r') as file:
         reader = csv.reader(file)
         for row in reader:
             x.append(row[0])

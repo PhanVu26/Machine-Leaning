@@ -32,6 +32,7 @@ class NN():
          and, output layer contains 2 nodes
         """
         self.layers = layers
+        layers = list(layers)
         self.L = len(layers)
         # ``w `` is a list (L-1) dim np.ndarray of matrix W for each layers
         # ``w[0]` is layer 2 (hidden layer 1), ..., ``w[L-2]`` is output layer
@@ -47,6 +48,7 @@ class NN():
         # number of training data
         train_data = list(train_data)
         m = len(train_data)
+        print(m)
         #m = len(train_data)
         # cost
         cost = []
@@ -55,9 +57,14 @@ class NN():
             print('Epoch {0} begin...'.format(j + 1))
             # shuffle data before run
             random.shuffle(train_data)
+            #print(train_data)
+            print("asddddfd")
             # divide data into mini batchs
             for k in range(0, m, mini_batch_size):
                 mini_batch = train_data[k:k + mini_batch_size]
+                mini_batch = list(mini_batch)
+                #m = len(train_data)
+                print("sfdghgfdfghf")
                 m_batch = len(mini_batch)
                 # calc gradient
                 w_grad = [np.zeros(W.shape) for W in self.w]
@@ -178,6 +185,8 @@ class NN():
         """
         Return cross-entropy cost of NN on test data
         """
+        data = list(data)
+        #m = len(data)
         m = len(data)
         j = 0
         for x, y in data:

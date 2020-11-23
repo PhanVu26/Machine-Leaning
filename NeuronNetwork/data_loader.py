@@ -11,7 +11,7 @@ import os
 from urllib.request import urlopen
 import gzip
 
-import _pickle as cPickle
+import pickle as cPickle
 import numpy as np
 
 DATA_PATH = '../.tmp'
@@ -33,11 +33,14 @@ def load():
         download()
 
     # load data
-    with gzip.open(DATA_FILE, 'r') as file:
-        tr_dt, v_dt, t_dt = cPickle.load(file,encoding="latin1")
-
+    with gzip.open(DATA_FILE, 'rb') as file:
+        tr_dt, v_dt, t_dt = cPickle.load(file, encoding="latin1")
+    print(tr_dt)
+    print(v_dt)
+    print(tr_dt)
     # training data
     inputs = [x.reshape((784, 1)) for x in tr_dt[0]]
+    #print(inputs)
     labels = [label_2_vec(y) for y in tr_dt[1]]
     training_data = zip(inputs, labels)
 
@@ -63,7 +66,7 @@ def download():
     # download
     url = 'https://github.com/mnielsen/neural-networks-and-deep-learning/raw/master/data/mnist.pkl.gz'
     input = urlopen(url)
-    with open(DATA_FILE, 'w') as output:
+    with open(DATA_FILE, 'wb') as output:
         while True:
             data = input.read(4096)
             if data:

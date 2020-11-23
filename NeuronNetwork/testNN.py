@@ -5,6 +5,7 @@ from NeuronNetwork import data_loader
 from NeuronNetwork.NN import NN
 
 training_data, validation_data, test_data = data_loader.load()
+print(test_data)
 #print('training_data: {0} / validation_data: {1} / test_data: {2}'.format(len(training_data), len(validation_data), len(test_data)))
 
 # run NN

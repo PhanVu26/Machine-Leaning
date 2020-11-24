@@ -1,35 +1,32 @@
 import numpy as np
-def pred(w, x):
-    return np.sign(np.dot(w.T, x))
-def has_converged(X, y, w):
-    return np.array_equal(pred(w, X), y)
+
+
+def pred(X, w):
+    return np.sign(np.dot(w.T, X))
+
+
+def hasConverged(X, w, y):
+    return np.array_equal(pred(X, w), y)
+
+
 def my_perceptron(X, y, w_init):
     w = [w_init]
+    miss_points = []
     N = X.shape[1]
     d = X.shape[0]
-    mis_points = []
     while True:
-        # mix data
         mix_id = np.random.permutation(N)
-        print("mix_id", mix_id)
         for i in range(N):
             xi = X[:, mix_id[i]].reshape(d, 1)
-            print("xi", xi)
             yi = y[0, mix_id[i]]
-            print("yi", yi)
-            print("KQ", pred(w[-1], xi))
-            if pred(w[-1], xi)[0] != yi:
-                mis_points.append(mix_id[i])
-                w_new = w[-1] + yi * xi # Cap nhat lai w cho tap cac diem bi miss
-                print("w_new", w_new)
+            if(pred(xi, w[-1]) != yi):
+                miss_points.append(mix_id[i])
+                w_new = w[-1] + xi * yi
                 w.append(w_new)
-        if has_converged(X, y, w[-1]):
-            break
-    return (w, mis_points)
-
-
+        if(hasConverged(X, w[-1], y)) :
+            break;
+    return (w, miss_points);
 if __name__ == '__main__':
-    print("d")
     means = [[2, 2], [4, 2]]
     cov = [[.3, .2], [.2, .3]]
     N = 10
@@ -49,5 +46,5 @@ if __name__ == '__main__':
     w_init = np.random.randn(d, 1)
     print("w_init", w_init)
     (w, m) = my_perceptron(Xbar, y, w_init)
-    print(w[-1].T)
+    print("wwwww", w[-1].T)
     # print(len(w[-1]))

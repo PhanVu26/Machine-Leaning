@@ -37,6 +37,8 @@ if __name__ == '__main__':
     X1 = np.random.multivariate_normal(means[1], cov, N).T
     print("X1", X1)
     X = np.concatenate((X0, X1), axis=1)
+    print("X", X)
+    print(X.shape)
     y = np.concatenate((np.ones((1, N)), -1 * np.ones((1, N))), axis=1)
     print("y", y)
     # Xbar

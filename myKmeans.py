@@ -1,6 +1,6 @@
-import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+
 def plot_result(X, y, centers, k, title):
     for i in range(K):
         plt.scatter(X[y == i, 0],
@@ -17,52 +17,47 @@ def plot_result(X, y, centers, k, title):
     plt.legend()
     plt.grid()
     plt.show()
-# 1. init center points
-def init_centers(X, k):
-    return X[np.random.choice(X.shape[0], k, replace=False)]
-# 2.  grouping
+
+
+
+def init_centers(X, K):
+    return X[np.random.choice(X.shape[0], K, replace=False)]
+
+
 def group_data(X, centers):
     y = np.zeros(X.shape[0])
     for i in range(X.shape[0]):
         d = X[i] - centers
-        print("d", d);
         d = np.linalg.norm(d, axis=1)
         y[i] = np.argmin(d)
 
     return y
-# 3. Update center points
-def update_centers(X, y, k):
-    centers = np.zeros((k, X.shape[1]))
+def update_centers(X, y, K):
+    centers = np.zeros((K, X.shape[1]))
 
-    for i in range(k):
+    for i in range(K):
         X_i = X[y == i, :]
         centers[i] = np.mean(X_i, axis=0)
+
     return centers
-# kmeans algorithm
-def kmeans(X, k):
-    centers = init_centers(X, k)
-    print(centers)
+
+def kmeans(X, K):
+    centers = init_centers(X, K)
     y = []
-    iter = 0
+    iter = 0;
     while True:
-        # save pre-loop groups
         y_old = y
-        # grouping
-        y = group_data(X, centers)
-        # break while loop if groups are not changed
-        if np.array_equal(y, y_old):
-            break
-        #  update centers
-        centers = update_centers(X, y, k)
-        # plot current state
+        y =  group_data(X, centers)
+        if(np.array_equal(y, y_old)):
+            break;
+        centers = update_centers(X, y, K)
         iter += 1
-        plot_result(X, y, centers, k, 'iter: ' + str(iter))
+        plot_result(X, y, centers, K, 'iter: ' + str(iter))
     return (centers, y)
 if __name__ == '__main__':
-    # group size
     K = 6
-    # create random data
     from sklearn.datasets import make_blobs
+
     X, _ = make_blobs(n_samples=1500,
                       n_features=2,
                       centers=K,
@@ -75,6 +70,8 @@ if __name__ == '__main__':
     plt.grid()
     plt.show()
     # run k-means
+    print("X[1]", X[1])
     centers, y = kmeans(X, K)
     # plot result
     plot_result(X, y, centers, K, 'Final')
+

@@ -3,11 +3,12 @@ import csv
 import matplotlib.pyplot as plt
 
 class LinearRegression():
+
     def display_data(self, X, y):
         plt.plot(X, y, 'ro')
         plt.axis([140, 190, 45, 75])
-        plt.xlabel('Height (cm)')
-        plt.ylabel('Weight (kg)')
+        plt.xlabel('X')
+        plt.ylabel('Y')
         plt.show()
 
     def display_result(self,X, y, x0, y0):
@@ -15,8 +16,8 @@ class LinearRegression():
         plt.plot(X.T, y.T, 'ro')  # data
         plt.plot(x0, y0)  # the fitting line
         plt.axis([140, 190, 45, 75])
-        plt.xlabel('Height (cm)')
-        plt.ylabel('Weight (kg)')
+        plt.xlabel('X')
+        plt.ylabel('Y')
         plt.show()
 
 
@@ -26,10 +27,10 @@ class LinearRegression():
        B = np.dot(np.linalg.pinv(a), b)
        return B;
 
-    def readFile(self ):
+    def readFile(self, datasetFile ):
        x = []
        y = []
-       with open('../datasets/LinearRegressionDataset.csv', 'r') as file:
+       with open(datasetFile, 'r') as file:
            reader = csv.reader(file)
            for row in reader:
                x.append(row[0])

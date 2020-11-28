@@ -1,9 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import csv
 
 class Perceptron():
 
-    def display_data(self, X, Y, y):
+    def display_data(self, X, Y):
         plt.plot(X, Y, 'ro')
         plt.axis([0, 5, 0, 6])
         plt.xlabel('X')
@@ -28,18 +29,24 @@ class Perceptron():
     def init_w(self, Xbar):
         return  np.random.randn(Xbar.shape[0], 1)
 
-    def loadData(self):
-        means = [[2, 2], [4, 2]]
-        cov = [[.3, .2], [.2, .3]]
-        N = 10
-        X0 = np.random.multivariate_normal(means[0], cov, N).T
-        print(X0)
-        X1 = np.random.multivariate_normal(means[1], cov, N).T
-        X = np.concatenate((X0, X1), axis=1)
-        y = np.concatenate((np.ones((1, N)), -1 * np.ones((1, N))), axis=1)
-        self.display_data(X[0], X[1], y)
-        Xbar = np.concatenate((np.ones((1, 2 * N)), X), axis=0)
-        return Xbar, X, y
+    def loadData(self, file):
+        # Doc file
+        x0 = []
+        x1 = []
+        y = []
+        with open(file, 'r') as file:
+            reader = csv.reader(file)
+            line_count = 0;
+            for row in reader:
+                if(line_count == 0):
+                    line_count += 1
+                else:
+                    x0.append(row[0])
+                    x1.append(row[1])
+                    y.append(row[2])
+            X = np.array(np.concatenate(([x0], [x1]), axis=0), dtype=float)
+            Y = np.array([y], dtype=int)
+        return X, Y
 
     def my_perceptron(sefl, X, y, w_init):
         w = [w_init]
@@ -49,17 +56,17 @@ class Perceptron():
         while True:
             # mix data
             mix_id = np.random.permutation(N)
-            print("mix_id", mix_id)
+            #print("mix_id", mix_id)
             for i in range(N):
                 xi = X[:, mix_id[i]].reshape(d, 1)
-                print("xi", xi)
+                #print("xi", xi)
                 yi = y[0, mix_id[i]]
-                print("yi", yi)
-                print("KQ", sefl.pred(w[-1], xi))
+                #print("yi", yi)
+                #print("KQ", sefl.pred(w[-1], xi))
                 if sefl.pred(w[-1], xi)[0] != yi:
                     mis_points.append(mix_id[i])
                     w_new = w[-1] + yi * xi  # Cap nhat lai w cho tap cac diem bi miss
-                    print("w_new", w_new)
+                    #print("w_new", w_new)
                     w.append(w_new)
             if sefl.has_converged(X, y, w[-1]):
                 break

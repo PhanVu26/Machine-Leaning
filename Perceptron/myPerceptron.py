@@ -4,16 +4,18 @@ import csv
 
 class Perceptron():
 
-    def display_data(self, X, Y):
-        plt.plot(X, Y, 'ro')
+    def display_data(self, X1, X2, Y):
+        color = ['red' if value == 1 else 'blue' for yy in Y for value in yy]
+        plt.scatter(X1, X2, marker='o', color=color)
         plt.axis([0, 5, 0, 6])
-        plt.xlabel('X')
-        plt.ylabel('Y')
+        plt.xlabel('X1')
+        plt.ylabel('X2')
         plt.show()
 
-    def display_result(self, X, y, x0, y0):
+    def display_result(self, X1, X2, Y, x0, y0):
         # Drawing the fitting line
-        plt.plot(X.T, y.T, 'ro')  # data
+        color = ['red' if value == 1 else 'blue' for yy in Y for value in yy]
+        plt.scatter(X1, X2, marker='o', color=color)
         plt.plot(x0, y0)  # the fitting line
         plt.axis([0, 6, 0, 6])
         plt.xlabel('X')
@@ -71,3 +73,10 @@ class Perceptron():
             if sefl.has_converged(X, y, w[-1]):
                 break
         return (w, mis_points)
+
+
+    def findBound(self, w):
+        w_res = w[len(w) - 1]
+        x0 = np.linspace(0, 6, 2)
+        y0 = (w_res[0] + w_res[1] * x0) / (-w_res[2])
+        return (x0, y0)

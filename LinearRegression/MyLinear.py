@@ -4,14 +4,14 @@ import numpy as np
 linearRegress = LinearRegression()
 
 # Doc Du lieu
-datasetFile = '../datasets/LinearRegressionDataset.csv';
+datasetFile = '../datasets/salary_data.csv';
 X, Y = linearRegress.readFile(datasetFile)
 
 # hien thi du lieu vao
 linearRegress.display_data(X, Y)
 
 # Tinh Xbar
-one = np.ones((X.shape[0], 1), dtype=int)
+one = np.ones((X.shape[0], 1), dtype=float)
 XBar = np.concatenate((one, X), axis=1)
 
 #Xbar (Ma tran N rows, d column)
@@ -21,7 +21,7 @@ XBar = np.concatenate((one, X), axis=1)
 W = linearRegress.linearRegress(XBar, Y)
 w_0 = W[0][0]
 w_1 = W[1][0]
-x0 = np.linspace(145, 185, 2)
+x0 = np.linspace(0, 10, 2)
 y0 = w_0 + w_1*x0
 
 linearRegress.display_result(X, Y, x0, y0)

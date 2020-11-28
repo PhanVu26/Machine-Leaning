@@ -6,7 +6,7 @@ class LinearRegression():
 
     def display_data(self, X, y):
         plt.plot(X, y, 'ro')
-        plt.axis([140, 190, 45, 75])
+        plt.axis([0, 11, 30000, 122000])
         plt.xlabel('X')
         plt.ylabel('Y')
         plt.show()
@@ -15,7 +15,7 @@ class LinearRegression():
         # Drawing the fitting line
         plt.plot(X.T, y.T, 'ro')  # data
         plt.plot(x0, y0)  # the fitting line
-        plt.axis([140, 190, 45, 75])
+        plt.axis([0, 11, 30000, 122000])
         plt.xlabel('X')
         plt.ylabel('Y')
         plt.show()
@@ -30,13 +30,18 @@ class LinearRegression():
     def readFile(self, datasetFile ):
        x = []
        y = []
+       line_count = 0
        with open(datasetFile, 'r') as file:
            reader = csv.reader(file)
            for row in reader:
-               x.append(row[0])
-               y.append(row[1])
+               print(row[0])
+               if(line_count == 0):
+                   line_count +=1
+               else:
+                x.append(row[0])
+                y.append(row[1])
 
-       X = np.array([x], dtype=int).T
+       X = np.array([x], dtype=float).T
        Y = np.array([y], dtype=int).T
 
        return (X,Y)

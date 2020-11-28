@@ -4,35 +4,27 @@ import matplotlib.pyplot as plt
 
 class Logistic():
 
-    def readFile(self):
+    def readFile(self, file):
         # Doc file
         x = []
         y = []
-        with open("../datasets/logisticDataset.csv", 'r') as file:
+        with open(file, 'r') as file:
             reader = csv.reader(file)
             for row in reader:
                 x.append(row[0])
                 y.append(row[1])
             X = np.array([x], dtype=float)
             Y = np.array(y, dtype=int)
-        # print("X", X)
-        # print("Y", Y)
-        # data:
-        X1 = np.array([[0.50, 0.75, 1.00, 1.25, 1.50, 1.75, 1.75, 2.00, 2.25, 2.50,
-                        2.75, 3.00, 3.25, 3.50, 4.00, 4.25, 4.50, 4.75, 5.00, 5.50]])
-        y1 = np.array([0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1])
-        # extended data
-        # print("X1: ",X1)
-        # print("y1: ", y1)
-        Xbar = np.concatenate((np.ones((1, X.shape[1])), X), axis=0)
+        return (X, Y)
 
-        return (Xbar, Y)
 
     def prod(self, w, X):
         return np.dot(self, w.T, X)
 
+
     def sigmoid(self, s):
         return 1 / (1 + np.exp(-s))
+
 
     def my_logistic_sigmoid_regression(self, X, Y, w_init, eta, epsilon=1e-3, M=10000):
         w = [w_init]

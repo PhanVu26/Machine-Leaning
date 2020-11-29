@@ -1,21 +1,37 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import csv
 
 class K_means():
 
     def __init__(self, K):
         self.K = K
 
-    def load_data(self, K):
-        # group size
-        # create random data
-        from sklearn.datasets import make_blobs
-        X, _ = make_blobs(n_samples=1500,
-                          n_features=2,
-                          centers=K,
-                          cluster_std=0.5,
-                          shuffle=True,
-                          random_state=0)
+    def load_data(self, K, file):
+        # # group size
+        # # create random data
+        # from sklearn.datasets import make_blobs
+        # X, _ = make_blobs(n_samples=500,
+        #                   n_features=2,
+        #                   centers=K,
+        #                   cluster_std=0.5,
+        #                   shuffle=True,
+        #                   random_state=0)
+        # Doc file
+        x0 = []
+        x1 = []
+        with open(file, 'r') as file:
+            reader = csv.reader(file)
+            line_count = 0;
+            for row in reader:
+                if(line_count == 0):
+                    line_count += 1;
+                else:
+                    x0.append(row[0])
+                    x1.append(row[1])
+            X0 = np.array([x0], dtype=float).T
+            X1 = np.array([x1], dtype=float).T
+            X = np.array(np.concatenate((X0, X1), axis=1), dtype=float)
         return X
 
     def show_data(self, X):

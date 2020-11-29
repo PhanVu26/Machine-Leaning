@@ -143,7 +143,7 @@ class NN():
 
     def add_bias(self, a):
         """
-        add a_0 = 1 as input for bias w_0
+        add a_0 = 1 as input for     bias w_0
         """
         return np.insert(a, 0, 1, axis=0)
 

@@ -1,11 +1,11 @@
-from Perceptron.myPerceptron import  Perceptron
+from Perceptron.myPerceptron import Perceptron
 import numpy as np
 
 
 perceptron = Perceptron()
 
 # Load du lieu
-file = "../datasets/perceptron.csv"
+file = "dataset.csv"
 X, y = perceptron.loadData(file)
 
 # Hien thi du lieu
@@ -17,11 +17,15 @@ Xbar = np.concatenate((np.ones((1, X.shape[1])), X), axis=0)
 # init w
 w = perceptron.init_w(Xbar)
 
-# Thuc hien thuat toan Perceptron tinh w( w la ma tran d rows, 1 column )
+# Thuc hien thuat toan Perceptron tinh w
 (w, m) = perceptron.my_perceptron(Xbar, y, w)
+print("Ket qua w sau khi tim duoc: ", w[-1].T)
 
 # Tim phuong trinh duong phan chia 2 lop
 x0, y0 = perceptron.findBound(w)
-
 perceptron.display_result(X[0], X[1], y, x0, y0)
-print("Ket qua w sau khi tim duoc: ", w[-1].T)
+
+# Test (x1 = 4, x1 = 3)
+Xtest = np.array([[1], [4], [3]])
+pred = perceptron.pred(w[-1], Xtest)
+print("Ket qua du doan thuoc lop: ", pred)

@@ -7,7 +7,7 @@ class Perceptron():
     def display_data(self, X1, X2, Y):
         color = ['red' if value == 1 else 'blue' for yy in Y for value in yy]
         plt.scatter(X1, X2, marker='o', color=color)
-        plt.axis([0, 5, 0, 6])
+        plt.axis([0, 15, 0, 4])
         plt.xlabel('X1')
         plt.ylabel('X2')
         plt.show()
@@ -17,9 +17,9 @@ class Perceptron():
         color = ['red' if value == 1 else 'blue' for yy in Y for value in yy]
         plt.scatter(X1, X2, marker='o', color=color)
         plt.plot(x0, y0)  # the fitting line
-        plt.axis([0, 6, 0, 6])
-        plt.xlabel('X')
-        plt.ylabel('Y')
+        plt.axis([0, 15, 0, 4])
+        plt.xlabel('X1')
+        plt.ylabel('X2')
         plt.show()
 
     def pred(sefl, w, x):
@@ -32,7 +32,6 @@ class Perceptron():
         return  np.random.randn(Xbar.shape[0], 1)
 
     def loadData(self, file):
-        # Doc file
         x0 = []
         x1 = []
         y = []
@@ -56,27 +55,21 @@ class Perceptron():
         d = X.shape[0]
         mis_points = []
         while True:
-            # mix data
+            # Mix du lieu
             mix_id = np.random.permutation(N)
-            #print("mix_id", mix_id)
             for i in range(N):
                 xi = X[:, mix_id[i]].reshape(d, 1)
-                #print("xi", xi)
                 yi = y[0, mix_id[i]]
-                #print("yi", yi)
-                #print("KQ", sefl.pred(w[-1], xi))
                 if sefl.pred(w[-1], xi)[0] != yi:
                     mis_points.append(mix_id[i])
                     w_new = w[-1] + yi * xi  # Cap nhat lai w cho tap cac diem bi miss
-                    #print("w_new", w_new)
                     w.append(w_new)
             if sefl.has_converged(X, y, w[-1]):
                 break
         return (w, mis_points)
 
-
     def findBound(self, w):
         w_res = w[len(w) - 1]
-        x0 = np.linspace(0, 6, 2)
+        x0 = np.linspace(0, 15, 2)
         y0 = (w_res[0] + w_res[1] * x0) / (-w_res[2])
         return (x0, y0)

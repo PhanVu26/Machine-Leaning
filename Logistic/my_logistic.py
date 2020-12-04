@@ -6,14 +6,20 @@ class Logistic():
 
     def readFile(self, file):
         # Doc file
-        x = []
+        x0 = []
+        x1 = []
         y = []
+        line_count = 0
         with open(file, 'r') as file:
             reader = csv.reader(file)
             for row in reader:
-                x.append(row[0])
-                y.append(row[1])
-            X = np.array([x], dtype=float)
+                if(line_count == 0):
+                    line_count += 1
+                else:
+                    x0.append(row[0])
+                    x1.append(row[1])
+                    y.append(row[2])
+            X = np.array(np.concatenate(([x0], [x1]), axis=0), dtype=float)
             Y = np.array(y, dtype=int)
         return (X, Y)
 
@@ -26,10 +32,8 @@ class Logistic():
         return 1 / (1 + np.exp(-s))
 
 
-    def my_logistic_sigmoid_regression(self, X, Y, w_init, eta, epsilon=1e-3, M=10000):
+    def train(self, X, Y, w_init, eta, epsilon=1e-3, M=10000):
         w = [w_init]
-        print("W", w)
-        print("w[-1]", w[-1])
         N = X.shape[1]
         d = X.shape[0]
         count = 0
@@ -37,24 +41,17 @@ class Logistic():
         while count < M:
             # mix data
             mix_id = np.random.permutation(N)
-            # print("Mix_", mix_id)
             for i in mix_id:
                 xi = X[:, i].reshape(d, 1)
-                # print("Xi", xi);
                 yi = Y[i]
-                # print("yi", yi)
                 zi = self.sigmoid(np.dot(w[-1].T, xi))
-                # print("zi", zi)
                 w_new = w[-1] + eta * (yi - zi) * xi
-                # print("w-new", w_new)
                 count += 1
                 # stopping criteria
                 if count % check_w_after == 0:
-                    # print("====20====")
                     if np.linalg.norm(w_new - w[-check_w_after]) < epsilon:
                         return w
                 w.append(w_new)
-                # print("W after append", w)
         return w
 
     def display(self, w, X, y):
@@ -76,3 +73,12 @@ class Logistic():
         plt.ylabel('predicted probability of pass')
         plt.show()
 
+
+    def predict(self, X_test, w):
+        thredsold = 0.5
+        accuracy  = self.sigmoid(np.dot(w[-1].T, X_test))
+        if (accuracy > thredsold):
+            pred = 1
+        else:
+            pred = 0
+        return pred, accuracy[0][0]
